@@ -19,13 +19,14 @@ class SkillCreate(SkillBase):
 class Skill(SkillBase):
     id: int  # Field specific to the retrieved skill
 
-    class Config:
-        orm_mode = True  # Pydantic will read from SQLAlchemy models
-
 class UserBase(BaseModel):
+    avatar_seed: int
     name: str
     password: str
     position: str
+    
+    class Config:
+        orm_mode = True
 
 class UserCreate(UserBase):
     pass
@@ -34,5 +35,7 @@ class User(UserBase):
     id: int
     skills: List[Skill] = []
 
-    class Config:
-        orm_mode = True
+# Login request schema
+class LoginRequest(BaseModel):
+    name: str
+    password: str

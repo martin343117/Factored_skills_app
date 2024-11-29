@@ -6,7 +6,8 @@ class User(Base):
   __tablename__='users'
   
   id =Column(Integer, primary_key=True, index=True)
-  name = Column(String)
+  avatar_seed = Column(Integer)
+  name = Column(String, unique=True)
   password = Column(String)
   position = Column(String)
   

@@ -2,7 +2,7 @@ from fastapi import FastAPI, Depends, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 from database import engine, SessionLocal, Base
-import crud, models, schemas
+import models, schemas
 
 
 app = FastAPI()
@@ -30,23 +30,22 @@ def get_db():
 # Create user endpoint (previously defined)
 @app.post("/users/", response_model=schemas.User)
 def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
-    db_user = models.User(name=user.name, password=user.password, position=user.position)
-    db.add(db_user)
-    db.commit()
-    db.refresh(db_user)
-    return db_user
-
-# Get user by ID (previously defined)
-@app.get("/users/{user_id}", response_model=schemas.User)
-def get_user_by_id(user_id: int, db: Session = Depends(get_db)):
-    db_user = db.query(models.User).filter(models.User.id == user_id).first()
-    if db_user is None:
-        raise HTTPException(status_code=404, detail="User not found")
+    db_user = models.User(avatar_seed=user.avatar_seed, name=user.name,
+                          password=user.password, position=user.position)
+    try:
+        db.add(db_user)
+        db.commit()
+        db.refresh(db_user)
+    except:
+        db.rollback()
+        print("name already in the db")
+    
     return db_user
 
 # New endpoint to add a skill to a user
 @app.post("/users/{user_id}/skills", response_model=schemas.Skill)
-def add_skill_to_user(user_id: int, skill: schemas.SkillCreate, db: Session = Depends(get_db)):
+def add_skill_to_user(user_id: int, skill: schemas.SkillCreate,
+                      db: Session = Depends(get_db)):
     # Check if user exists
     db_user = db.query(models.User).filter(models.User.id == user_id).first()
     if db_user is None:
@@ -59,3 +58,15 @@ def add_skill_to_user(user_id: int, skill: schemas.SkillCreate, db: Session = De
     db.refresh(db_skill)
     
     return db_skill
+
+# Log in as a user and gets its data
+@app.post("/users/login", response_model=schemas.User)
+def get_user(login_data: schemas.LoginRequest, db: Session = Depends(get_db)):
+    db_user = db.query(models.User).filter(models.User.name == login_data.name).first()
+    if db_user is None:
+        raise HTTPException(status_code=400, detail="Invalid username or password")
+    
+    # Verify the password
+    if db_user.password != login_data.password:
+        raise HTTPException(status_code=400, detail="Invalid username or password")
+    return db_user
