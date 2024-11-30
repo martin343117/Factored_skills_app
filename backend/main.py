@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 from database import engine, SessionLocal, Base
 import models, schemas
-
+import logging
 
 app = FastAPI()
 
@@ -28,10 +28,18 @@ def get_db():
         db.close()
 
 # Create user endpoint (previously defined)
-@app.post("/users/", response_model=schemas.User)
+@app.post("/users/register", response_model=schemas.User)
 def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
+    logging.info(f"Received registration data: {user.model_dump()}")
+    # add user to the db model
     db_user = models.User(avatar_seed=user.avatar_seed, name=user.name,
-                          password=user.password, position=user.position)
+                          password=user.password, position=user.position,
+                          experience=user.experience, awards=user.awards)
+    # add its skills to the db model
+    for skill in user.skills:
+        db_skill=models.Skill(skill_name=skill.skill_name, proficiency=skill.proficiency)
+        db_user.skills.append(db_skill)
+
     try:
         db.add(db_user)
         db.commit()
@@ -39,7 +47,7 @@ def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
     except:
         db.rollback()
         print("name already in the db")
-    
+
     return db_user
 
 # New endpoint to add a skill to a user

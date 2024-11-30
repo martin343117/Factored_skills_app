@@ -1,5 +1,5 @@
 from database import Base
-from sqlalchemy import Column, Integer, String, Float, ForeignKey
+from sqlalchemy import Column, Integer, String, Float, Text, ForeignKey
 from sqlalchemy.orm import relationship
 
 class User(Base):
@@ -10,6 +10,8 @@ class User(Base):
   name = Column(String, unique=True)
   password = Column(String)
   position = Column(String)
+  awards = Column(Text)
+  experience = Column(Text)
   
   skills = relationship("Skill", back_populates="user")
   

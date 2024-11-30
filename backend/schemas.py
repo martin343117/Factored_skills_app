@@ -13,7 +13,7 @@ class SkillBase(BaseModel):
 
 # Schema for creating a skill, inherits from SkillBase
 class SkillCreate(SkillBase):
-    user_id: int  # Field specific to creating a skill
+    pass
 
 # Schema for retrieving a skill, inherits from SkillBase
 class Skill(SkillBase):
@@ -24,16 +24,18 @@ class UserBase(BaseModel):
     name: str
     password: str
     position: str
+    awards: str
+    experience: str
     
     class Config:
         orm_mode = True
 
 class UserCreate(UserBase):
-    pass
+    skills: List[SkillCreate]
 
 class User(UserBase):
     id: int
-    skills: List[Skill] = []
+    skills: List[Skill]
 
 # Login request schema
 class LoginRequest(BaseModel):

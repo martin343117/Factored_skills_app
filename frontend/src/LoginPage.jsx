@@ -1,9 +1,12 @@
+// LoginPage.jsx
 import React, { useState } from 'react';
-import { Box, TextField, Button, Typography, Container } from '@mui/material';
+import { Box, TextField, Button, Typography, Container, Link } from '@mui/material';
 
-const LoginPage = ({ onLogin }) => {
+const LoginPage = ({ onLogin, onRegister }) => {
+  console.log("Rendering LoginPage");
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
+  // const navigate = useNavigate(); // Hook to navigate between pages
 
   const handleSubmit = () => {
     onLogin({ name, password });
@@ -44,6 +47,19 @@ const LoginPage = ({ onLogin }) => {
         >
           Submit
         </Button>
+
+        {/* Register Link */}
+        <Box sx={{ marginTop: 2 }}>
+          <Typography variant="body2">
+            Don't have an account?{' '}
+            <Link
+              onClick={onRegister}  // Trigger the onRegister function passed as a prop
+              sx={{ cursor: 'pointer', color: 'primary.main' }}
+            >
+              Register
+            </Link>
+          </Typography>
+        </Box>
       </Box>
     </Container>
   );

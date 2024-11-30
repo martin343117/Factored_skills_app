@@ -38,15 +38,34 @@ const SpiderChart = ({ skills }) => {
         ticks: {
           beginAtZero: true,
           stepSize: 2,
+          font: {
+            size: 16,
+          },
+        },
+        pointLabels: {
+          font: {
+            size: 18, // Adjust font size here for the skill labels (e.g., Java, Python, etc.)
+          },
         },
       },
     },
     responsive: true,
     maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        position: "top",
+        labels: {
+          font: {
+            size: 24, // Adjust this value to make the legend text larger
+          },
+        },
+        onClick: (e) => e.stopImmediatePropagation(), // Disable interaction with the legend
+      },
+    },
   };
 
   return (
-    <div style={{ height: "400px", width: "400px" }}>
+    <div style={{ height: "500px", width: "500px" }}>
       <Radar data={data} options={options} />
     </div>
   );
