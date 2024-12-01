@@ -1,10 +1,11 @@
 import React from "react";
-import { Box, Typography, Container, Paper } from "@mui/material";
+import { Box, Typography, Container, Paper, IconButton } from "@mui/material";
+import { ExitToApp } from '@mui/icons-material';
 import Grid2 from "@mui/material/Grid2"; // Correct import for Grid2 in Material-UI v6+
 import SpiderChart from "./SpiderChart";
 import ProfileAvatar from "./ProfileAvatar";
 
-const HomePage = ({ user }) => {
+const HomePage = ({ user, onBack}) => {
   return (
     <Container
       maxWidth="lg" // Increased max width for more balanced centering
@@ -19,7 +20,19 @@ const HomePage = ({ user }) => {
       }}
     >
       {/* Main Content */}
-      <Box sx={{ width: "100%", backgroundColor: "#e6e6e6", borderRadius: 2, padding: 2 }}>
+      <Box sx={{ width: "100%", backgroundColor: "#e6e6e6", borderRadius: 2, padding: 2, position:"relative" }}>
+        {/* Logout Button */}
+        <IconButton
+          onClick={onBack}
+          sx={{
+            position: "absolute",
+            top: 10,
+            left: 10,
+          }}
+        >
+          <ExitToApp fontSize="large"/>
+        </IconButton>
+
         <Grid2 container spacing={10} justifyContent="center" alignItems="center">
           {/* Avatar and User Info */}
           <Grid2
@@ -65,7 +78,7 @@ const HomePage = ({ user }) => {
               <Typography variant="h6" gutterBottom>
                 Experience
               </Typography>
-              <Typography variant="body1">
+              <Typography variant="body1" sx={{ whiteSpace: 'pre-line' }}>
                 {user.experience || "Details about the user's experience go here."}
               </Typography>
             </Paper>
@@ -75,7 +88,7 @@ const HomePage = ({ user }) => {
               <Typography variant="h6" gutterBottom>
                 Awards
               </Typography>
-              <Typography variant="body1">
+              <Typography variant="body1" sx={{ whiteSpace: 'pre-line' }}>
                 {user.awards || "List of awards or recognitions go here."}
               </Typography>
             </Paper>

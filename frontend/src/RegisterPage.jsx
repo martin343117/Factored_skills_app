@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Container, Box, Typography, TextField, Button, Grid2, IconButton } from '@mui/material';
-import { Add, Remove } from '@mui/icons-material';
+import { ChangeCircle, Remove } from '@mui/icons-material';
+import ProfileAvatar from "./ProfileAvatar";
 
 const RegisterPage = ({ onBack, onRegister }) => {
   const [name, setName] = useState('');
@@ -9,7 +10,7 @@ const RegisterPage = ({ onBack, onRegister }) => {
   const [experience, setWorkExperience] = useState('');
   const [awards, setAwards] = useState('');
   const [skills, setSkills] = useState([{ skill_name: '', proficiency: '' }]);
-  const avatar_seed=1
+  const [avatar_seed, setSeed] = useState(1);
 
   // Handle adding a new skill input
   const handleAddSkill = () => {
@@ -29,6 +30,12 @@ const RegisterPage = ({ onBack, onRegister }) => {
     setSkills(newSkills);
   };
 
+  // change the avatar seed to a new random one
+  const randomizeSeed = () => {
+    const randomInt = Math.floor(Math.random() * 1000000); // Generates an integer between 0 and 1e6
+    setSeed(randomInt);
+  };
+
   // Handle form submission
   const handleSubmit = () => {
     const formData = {
@@ -42,7 +49,7 @@ const RegisterPage = ({ onBack, onRegister }) => {
     };
     // Call the parent onRegister function to send the data
     console.log("Form data to be submitted:", formData); // Log form data
-    onRegister(formData)
+    onRegister(formData);
   };
 
   return (
@@ -139,21 +146,33 @@ const RegisterPage = ({ onBack, onRegister }) => {
           Add Skill
         </Button>
 
-        <Button
-          variant="contained"
-          sx={{ mt: 4 }}
-          onClick={handleSubmit}
-        >
-          Submit
-        </Button>
+        {/* Avatar and randomize button */}
+        <Box sx={{ display: 'flex', alignItems: 'center', mt: 4 }}>
+          <Box sx={{ mr: 2 }}>
+            <ProfileAvatar seed={avatar_seed} />
+          </Box>
+          <IconButton onClick={randomizeSeed} color="error">
+            <ChangeCircle fontSize="large"/>
+          </IconButton>
+        </Box>
 
-        <Button
-          variant="outlined"
-          sx={{ mt: 2 }}
-          onClick={onBack}
-        >
-          Back to Login
-        </Button>
+        {/* Buttons */}
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', width: '100%', mt: 4 }}>
+          <Button
+            variant="contained"
+            onClick={handleSubmit}
+            sx={{ flex: 1, mr: 2 }}
+          >
+            Submit
+          </Button>
+          <Button
+            variant="outlined"
+            onClick={onBack}
+            sx={{ flex: 1 }}
+          >
+            Back to Login
+          </Button>
+        </Box>
       </Box>
     </Container>
   );

@@ -1,12 +1,11 @@
-// LoginPage.jsx
 import React, { useState } from 'react';
-import { Box, TextField, Button, Typography, Container, Link } from '@mui/material';
+import { Box, TextField, Button, Typography, Container, Link, Paper, InputAdornment } from '@mui/material';
+import { AccountCircle, Lock } from '@mui/icons-material';
 
 const LoginPage = ({ onLogin, onRegister }) => {
   console.log("Rendering LoginPage");
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
-  // const navigate = useNavigate(); // Hook to navigate between pages
 
   const handleSubmit = () => {
     onLogin({ name, password });
@@ -17,49 +16,79 @@ const LoginPage = ({ onLogin, onRegister }) => {
       <Box
         sx={{
           display: 'flex',
-          flexDirection: 'column',
+          justifyContent: 'center',
           alignItems: 'center',
-          marginTop: 8,
+          minHeight: '100vh',
         }}
       >
-        <Typography variant="h4" gutterBottom>
-          Login
-        </Typography>
-        <TextField
-          label="Name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          fullWidth
-          margin="normal"
-        />
-        <TextField
-          label="Password"
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          fullWidth
-          margin="normal"
-        />
-        <Button
-          variant="contained"
-          sx={{ mt: 2 }}
-          onClick={handleSubmit}
+        <Paper
+          sx={{
+            padding: 4,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            width: '100%',
+            maxWidth: 400,
+            boxShadow: 3, // Adds a subtle shadow
+            backgroundColor: '#f7f7f7', // Light background color
+          }}
         >
-          Submit
-        </Button>
-
-        {/* Register Link */}
-        <Box sx={{ marginTop: 2 }}>
-          <Typography variant="body2">
-            Don't have an account?{' '}
-            <Link
-              onClick={onRegister}  // Trigger the onRegister function passed as a prop
-              sx={{ cursor: 'pointer', color: 'primary.main' }}
-            >
-              Register
-            </Link>
+          <Typography variant="h4" gutterBottom>
+            Login
           </Typography>
-        </Box>
+          
+          <TextField
+            label="Name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            fullWidth
+            margin="normal"
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <AccountCircle />
+                </InputAdornment>
+              ),
+            }}
+          />
+
+          <TextField
+            label="Password"
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            fullWidth
+            margin="normal"
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Lock />
+                </InputAdornment>
+              ),
+            }}
+          />
+
+          <Button
+            variant="contained"
+            sx={{ mt: 2 }}
+            onClick={handleSubmit}
+          >
+            Submit
+          </Button>
+
+          {/* Register Link */}
+          <Box sx={{ marginTop: 2 }}>
+            <Typography variant="body2" align="center">
+              Don't have an account?{' '}
+              <Link
+                onClick={onRegister}  // Trigger the onRegister function passed as a prop
+                sx={{ cursor: 'pointer', color: 'primary.main' }}
+              >
+                Register
+              </Link>
+            </Typography>
+          </Box>
+        </Paper>
       </Box>
     </Container>
   );

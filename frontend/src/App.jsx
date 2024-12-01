@@ -49,7 +49,7 @@ const App = () => {
       case 'login':
         return <LoginPage onLogin={handleLogin} onRegister={handleToRegister} />;
       case 'home':
-        return <HomePage user={user} />;
+        return <HomePage user={user} onBack={handleBackToLogin}/>;
       case 'register':
         return <RegisterPage onBack={handleBackToLogin} onRegister={handleRegister} />;
       default:
