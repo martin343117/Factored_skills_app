@@ -86,4 +86,10 @@ docker compose up --build
 
 - Swagger: You can add data to the database using the register page, but you can also try out the Swagger documentation of the backend to post requests directly. this can be done in http://localhost:8000/docs.
 
-###
+### Web Page Screenshots
+![image](https://github.com/user-attachments/assets/1d99ad8b-d9fd-47dd-9ad8-d8a55330e030)
+![image](https://github.com/user-attachments/assets/f54b9969-b0b6-4a4e-943f-b3caa44c8304)
+![image](https://github.com/user-attachments/assets/ff923a4d-c7b7-4a4d-b3b4-ae803c8b3a4a)
+
+
+
