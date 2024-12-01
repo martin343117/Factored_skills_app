@@ -79,12 +79,12 @@ const LoginPage = ({ onLogin, onRegister }) => {
           {/* Register Link */}
           <Box sx={{ marginTop: 2 }}>
             <Typography variant="body2" align="center">
-              Don't have an account?{' '}
+              New user?{' '}
               <Link
                 onClick={onRegister}  // Trigger the onRegister function passed as a prop
                 sx={{ cursor: 'pointer', color: 'primary.main' }}
               >
-                Register
+                Create your profile here
               </Link>
             </Typography>
           </Box>
